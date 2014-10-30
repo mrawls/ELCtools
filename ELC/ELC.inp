@@ -1,0 +1,155 @@
+    40                   Nalph1
+   14                    Nbet1
+    40                   Nalph2
+   14                    Nbet2
+1.00000000000000         fill1
+0.00500000000000         fill2
+  1.000000000000         omega1
+  1.000000000000         omega2
+   0.02000000            dphase
+   1.0084190162579834    Q
+  87.9598086515487978    finc
+  5013.36356             Teff1
+  4716.50413             Teff2
+0.2500000                Tgrav1
+0.2500000                Tgrav2
+ 2.00000000              betarim
+0.005000000              rinner
+0.750000000              router
+30000.000000             tdisk
+-0.750000000             xi
+    90                   Ntheta
+    60                   Nradius
+1.0000000000             alb1
+1.0000000000             alb2
+ 1                       Nref
+   0.00100000            Lx/Lopt
+  171.276175845110942    Period
+ 3.00000                 fm
+     212.97383641208     separ
+   50.000000000000       gamma velocity
+  -5000.0000000000       t3
+ -5.00000000000          g3
+   -0.1000000000000000   SA3
+    0.000000             density in g/cc
+    0.000000             onephase
+    0.000000             usepot1
+    0.000000             usepot2
+   321.24431388566273    T0
+0                        idraw
+5                        iecheck
+0                        idint
+1                        iatm
+0                        ism1
+1 0 0 0 0 0 0 0          icnU,icnB,icnV,icnR,icnI,icnJ,icnH,icnK
+1                        iRVfilt
+0                        ionephase
+0                        isquare
+0                        iusepot
+2                        ifixgamma
+ 5                       ilaw  (1=lin. law, 2=log. law, 3=sqrt law, 4=quad. law)
+ 3600.0   0.63500  0.24200  0.63500  0.24200  0.04166052  0.19841485  0.99947819  0.51864619
+ 4500.0   0.63500  0.24200  0.63500  0.24200  0.60000000  0.10000000  0.60000000  0.10000000
+ 5550.0   0.63500  0.24200  0.63500  0.24200  0.60000000  0.10000000  0.60000000  0.10000000
+ 6700.0   0.63500  0.24200  0.63500  0.24200  0.60000000  0.10000000  0.60000000  0.10000000
+ 8700.0   0.63500  0.24200  0.63500  0.24200  0.60000000  0.10000000  0.60000000  0.10000000
+12000.0   0.63500  0.24200  0.63500  0.24200  0.60000000  0.10000000  0.60000000  0.10000000
+16200.0   0.63500  0.24200  0.63500  0.24200  0.60000000  0.10000000  0.60000000  0.10000000
+22000.0   0.63500  0.24200  0.63500  0.24200  0.60000000  0.10000000  0.60000000  0.20000000
+    0.361932003406       eccentricity
+  21.31911079831785      argument of peristron in degrees
+ 0.00000000000           pshift
+    0.00000000000        asini (projected semimajor axis in seconds)
+    0.000000             median fit (geneticELC only)
+    0.000000             sw7 (currently inactive)
+    0.000000             sw8 (currently inactive)
+    0.001000000          time step for itime=2
+1                        ikeep (1 to put eclipse at phase 0.0)
+0                        isynch (1 to keep rotation synchronous at periastron)
+0                        ispotprof
+0                        igrav
+1                        itime
+     0                   MonteCarlo (0 for interpolation, >10 for Monte Carlo integration)
+     1                   ielite
+-1.0000000000            Temperature factor spot 1, star 1
+ -1.000000000            Latitude of spot 1, star 1 (degrees)
+ -1.000000000            Longitude of spot 1, star 1 (degrees)
+ -1.000000000            Angular radius of spot 1, star 1 (degrees)
+-1.0000000000            Temperature factor spot 2, star 1
+ -1.000000000            Latitude of spot 2, star 1 (degrees)
+ -1.000000000            Longitude of spot 2, star 1 (degrees)
+ -1.000000000            Angular radius of spot 2, star 1 (degrees)
+-1.0000000000            Temperature factor spot 1, star 2
+ -1.000000000            Latitude of spot 1, star 2 (degrees)
+ -1.000000000            Longitude of spot 1, star 2 (degrees)
+ -1.000000000            Angular radius of spot 1, star 2 (degrees)
+-1.0000000000            Temperature factor spot 2, star 2
+ -1.000000000            Latitude of spot 2, star 2 (degrees)
+ -1.000000000            Longitude of spot 2, star 2 (degrees)
+ -1.000000000            Angular radius of spot 2, star 2 (degrees)
+-1.0000000000            Temperature factor spot 1, disk
+ -1.000000000            Azimuth of spot 1, disk (degrees)
+ -1.000000000            Radial cutoff of spot 1, disk (0 <=  r_cut <=1)
+ -1.000000000            Angular size of spot 1, disk (degrees)
+-1.0000000000            Temperature factor spot 2, disk
+ -1.000000000            Azimuth of spot 2, disk (degrees)
+ -1.000000000            Radial cutoff of spot 2, disk (0 <= r_cut <=1)
+ -1.000000000            Angular size of spot 2, disk (degrees)
+  2.2026293355677597     primmass (star 1 mass in solar masses)
+  33.87601400363508      primK (K-velocity of star 1 in km/sec)
+   0.90000000000000      primrad (star 1 radius in solar radii)
+     2.04044040439858    ratrad (ratio of star 1 radius and star 2 radius)
+0.0475200807571739       frac1 (fractional radius star 1: R_1/a)
+0.0232891294716252       frac2 (fractional radius star 2: R_2/a)
+ 0.71227823300000        ecosw (phase difference between eclipses)
+ 0.94078637637414        temprat (T_2/T_1)
+0                        idark1
+0                        idark2
+     0                   Npoly (0 for numerical integration)
+0                        ifasttrans (>0 for fast transit mode)
+0                        ialign (0 for rotation aligned with orbit)
+0                        ifastgen (1 for fast genetic mode)
+0                        iwriteeclipse (1 to fit eclipse times)
+0                        frac switch (>1 to enable ELCratio.???? files)
+ 0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000
+ 0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000
+ 0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000
+ 0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000
+ 0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000
+ 0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000
+ 0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000
+ 0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000
+ 87.9598086515           axis_I (inclination of rotation axis if ialign=1)
+  0.0000000000           axis_beta (angle of rotation axis wrt to  orbit if ialign=1)
+      1020.0000000       t_start
+      1035.0000000       t_end
+ 0.0000000000            asini error
+0.00000000000            reference phase for disk fraction
+0.00000000000            radfill1 (set to use fill1 in terms of R_eff
+0.00000000000            radfill2 (set to use fill2 in terms of R_eff
+ 30.000000000            bin size for light curves (minutes)
+  0.000000000            bin size for RV curves (minutes)
+0.04991147649917         Kepler contamination
+   337.51393230116491    Tconj
+0.00000000000            beam1 (Doppler boosting factor, star 1)
+0.00000000000            beam2 (Doppler boosting factor, star 2)
+0                        X-ray foreshortening switch (1 for point source)
+0                        iGR (1 for GR, 2 for tidal, 3 for both)
+   300                   Nterms for fast analytic
+1                        set to 1 to fit for Tconj
+1                        set to 1 to fit for e*cos(omega), e*sin(omega)
+0                        body 3 switch
+     0                   Ngap
+               0         jdum (seed for markovELC, geneticELC, randomELC)
+1                        mandel (0 for Gimenez, 1 for Mandel & Agol)
+0                        Iseason (1 for seasonal Kepler contamination)
+  0.3371681472951016     e*cos(omega)
+  0.1315766527124845     e*sin(omega)
+  0.0000000000000        omega_dot (degrees per year)
+  0.0000000000000        contamS0 (season 0 contamination, tag s0)
+  0.0000000000000        contamS1 (season 1 contamination, tag s1)
+  0.0000000000000        contamS2 (season 2 contamination, tag s2)
+  0.0000000000000        contamS3 (season 3 contamination, tag s3)
+         0.00000000      Tref for dynamical integrator
+  0.00000000             threshold to write chi^2
+  0.00000000             sw49 (currently inactive)

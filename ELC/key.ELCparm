@@ -1,0 +1,31 @@
+# Key for ELCparm files
+1  index
+2   M1            solar
+3   M2            solar
+4   R1            solar
+5   R2            solar
+6   R3            solar
+7   log(g1)       cgs
+8   log(g2)       cgs
+9   a1            solar
+10  a2            solar
+11  a             solar
+12  K1            km/sec
+13  K2            km/sec
+14  Vrot1         km/sec
+15  Vrot2         km/sec
+16  Vrot1*hutfac  km/sec
+17  Vrot2*hutfac  km/sec
+18  ave11         temperature spot 1, star 1
+19  ave12         temperature spot 2, star 1
+20  ave21         temperature spot 1, star 2
+21  ave22         temperature spot 2, star 2
+22  ave1          temperature spot 1, disk
+23  ave2          temperature spot 2, disk
+24  W-D pot. 1
+25  W-D pot. 2
+26  impact parm.
+27  duration      days
+28  depth         
+29  duration      days, alternate formula
+30  M3            solar

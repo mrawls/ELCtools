@@ -1,0 +1,107 @@
+#  Key for ELCbody3parm files
+1   index
+2   chi^2
+3   M1       solar
+4   R1       solar
+5   M2       solar
+6   R2       solar
+7   a_EB     AU
+8   Tref     days
+9   period2  days
+10  M2       earth
+11  R2       earth
+12  den2     g/cc
+13  a2       AU
+14  e2       
+15  omega2   deg
+16  incl2    deg
+17  Omega2   deg
+18  Tcon2    days
+19  Tperi2   days
+20  mutual2  deg
+21  impact2  
+22  dur2     hour
+23  period3  days
+24  M3       Earth
+25  R3       Earth
+26  den3     g/cc
+27  a3       AU
+28  e3       
+29  omega3   deg
+30  incl3    deg
+31  Omega3   deg
+32  Tconj3   days
+33  Tperi3   days
+34  mutual3  deg
+35  impact3   
+36  dur3     hour
+37  period4  days
+38  M4       Earth
+39  R4       Earth
+40  den4     g/cc
+41  a4       AU
+42  e4       
+43  omega4   deg
+44  incl4    deg
+45  Omega4   deg
+46  Tconj4   days
+47  Tperi4   days
+48  mutual4  deg
+49  impact4   
+50  dur4     hour
+51  period5  days
+52  M5       Earth
+53  R5       Earth
+54  den5     g/cc
+55  a5       AU
+56  e5       
+57  omega5   deg
+58  incl5    deg
+59  Omega5   deg
+60  Tconj5   days
+61  Tperi5   days
+62  mutual5  deg
+63  impact5   
+64  dur5     hour
+65  period6  days
+66  M6       Earth
+67  R6       Earth
+68  den6     g/cc
+69  a6       AU
+70  e6       
+71  omega6   deg
+72  incl6    deg
+73  Omega6   deg
+74  Tconj6   days
+75  Tperi6   days
+76  mutual6  deg
+77  impact6   
+78  dur6     hour
+79  period7  days
+80  M7       Earth
+81  R7       Earth
+82  den7     g/cc
+83  a7       AU
+84  e7       
+85  omega7   deg
+87  incl7    deg
+88  Omega7   deg
+89  Tconj7   days
+90  Tperi7   days
+91  mutual7  deg
+92  impact7   
+93  dur7     hour
+94  period8  days
+95  M8       Earth
+96  R8       Earth
+97  den8     g/cc
+98  a8       AU
+99  e8       
+100 omega8   deg
+101 incl8    deg
+102 Omega8   deg
+103 Tconj8   days
+104 Tperi8   days
+105 mutual8  deg
+106 impact8   
+107 dur8     hour
