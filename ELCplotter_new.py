@@ -38,6 +38,10 @@ f1.close(); f2.close(); f3.close(); f4.close(); f5.close(); f6.close()
 
 print ("Done reading data!")
 
+if np.abs(np.median(mag_mod) - np.median(mag_dat)) > 1:
+	print('Adjusting magnitude of model light curve...')
+	mag_mod = mag_mod + (np.median(mag_dat) - np.median(mag_mod))
+
 # Interpolate model onto data phase grid, for residuals
 newmag_model = np.interp(phase_dat, phase_mod, mag_mod)
 newrv1 = np.interp(phase_rv1dat, phase_rv1, rv1)
