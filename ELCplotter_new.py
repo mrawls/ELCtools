@@ -76,8 +76,6 @@ plt.axis([phasemin, phasemax, magdim, magbright])
 plt.tick_params(axis='both', which='major')
 plt.plot(phase_dat, mag_dat, color=red, marker='.', ls='None', ms=1, mew=0) #lc data
 plt.plot(phase_mod, mag_mod, 'k', lw=1.5) #lc model
-plt.plot(phase_dat+1, mag_dat, color=red, marker='.', ls='None', ms=1, mew=0) #lc data 1-2
-plt.plot(phase_mod+1, mag_mod, 'k', lw=1.5, label='ELC Model') #lc model 1-2
 ax1.set_ylabel('Magnitude', size=18)
 ax1.set_xticklabels([])
 
@@ -89,10 +87,6 @@ plt.errorbar(phase_rv1dat, rv1dat, yerr=rv1err, marker='o', color=red, mec=red, 
 plt.errorbar(phase_rv2dat, rv2dat, yerr=rv2err, marker='o', color=yel, mec=yel, ls='None') #rv2 data
 plt.plot(phase_rv1, rv1, color='k', lw=1.5) #rv1 model
 plt.plot(phase_rv2, rv2, color='k', lw=1.5) #rv2 model
-plt.errorbar(phase_rv1dat+1, rv1dat, yerr=rv1err, marker='o', color=red, mec=red, ls='None') #rv1 data 1-2
-plt.errorbar(phase_rv2dat+1, rv2dat, yerr=rv2err, marker='o', color=yel, mec=yel, ls='None') #rv2 data 1-2
-plt.plot(phase_rv1+1, rv1, color='k', lw=1.5) #rv1 model 1-2
-plt.plot(phase_rv2+1, rv2, color='k', lw=1.5) #rv2 model 1-2
 ax2.set_ylabel('Radial Velocity (km s$^{-1}$)', size=18)
 ax2.set_xticklabels([])
 
@@ -103,8 +97,6 @@ axr1.set_yticks([-0.006, 0, 0.006])
 axr1.yaxis.set_major_formatter(FormatStrFormatter('%.3f'))
 plt.axhline(y=0, xmin=phasemin, xmax=phasemax, color='0.75', ls=':')
 plt.plot(phase_dat, lcresid, color=red, marker='.', ls='None', ms=1, mew=0) #lc residual
-plt.plot(phase_dat+1, lcresid, color=red, marker='.', ls='None', ms=1, mew=0) #lc residual 1-2
-#axr1.set_xticklabels([])
 
 # Radial velocity residuals
 axr2 = plt.subplot2grid((12,1),(0,0))
@@ -113,8 +105,6 @@ axr2.set_yticks([-4,0,4])
 plt.axhline(y=0, xmin=phasemin, xmax=phasemax, color='0.75')
 plt.errorbar(phase_rv1dat, rv1resid, yerr=rv1err, marker='o', color=red, mec=red, ls='None') #rv1 residual
 plt.errorbar(phase_rv2dat, rv2resid, yerr=rv2err, marker='o', color=yel, mec=yel, ls='None') #rv2 residual
-plt.errorbar(phase_rv1dat+1, rv1resid, yerr=rv1err, marker='o', color=red, mec=red, ls='None') #rv1 residual 1-2
-plt.errorbar(phase_rv2dat+1, rv2resid, yerr=rv2err, marker='o', color=yel, mec=yel, ls='None') #rv2 residual 1-2
 #plt.xlabel('Orbital Phase (conjunction at $\phi = 0.5$)', size=20) # EXTRA LABEL
 axr2.set_xticklabels([])
 
