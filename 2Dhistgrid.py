@@ -102,7 +102,7 @@ f2.close()
 pardata = []
 for idx, par in enumerate(pars):
 	with open(parfile) as f1:
-		pardata.append(np.loadtxt(f1, dtype=np.float64, usecols=(parindices[idx]+1,), unpack=True))
+		pardata.append(np.loadtxt(f1, dtype=np.float64, usecols=(parindices[idx],), unpack=True))
 ##
 ## OPTION 2: markovchainXX.*** files ## ... probably not useful
 ##
