@@ -170,44 +170,46 @@ plt.errorbar(phase_rv2dat, rv2resid, yerr=rv2err, marker='o', color=yel, mec=yel
 axr2.set_xticklabels([])
 
 # Zoom-in of shallower (secondary) eclipse
-ax3 = plt.subplot2grid((12,2),(9,1), rowspan=2)
+ax3 = plt.subplot2grid((12,2),(9,0), rowspan=2)
 plt.axis([secondary_phasemin, secondary_phasemax, magdim, magbright])
 ax3.set_xticks([0.20, 0.21, 0.22, 0.23])
 plt.plot(phase_dat, mag_dat, color=yel, marker='.', ls='None', ms=2, mew=0) #lc data
 plt.plot(phase_mod, mag_mod, color='k', lw=1.5) #lc model
 ax3.set_ylabel('Magnitude')
 ax3.set_xticklabels([])
-ax3.set_yticklabels([])
+#ax3.set_yticklabels([])
 
 # Zoom-in of deeper (primary) eclipse
-ax4 = plt.subplot2grid((12,2),(9,0), rowspan=2)
+ax4 = plt.subplot2grid((12,2),(9,1), rowspan=2)
 plt.axis([primary_phasemin, primary_phasemax, magdim, magbright])
-ax4.set_xticks([0.48, 0.49, 0.50, 0.51])
+ax4.set_xticks([0.49, 0.50, 0.51, 0.52])
 plt.plot(phase_dat, mag_dat, color=red, marker='.', ls='None', ms=2, mew=0) #lc data
 plt.plot(phase_mod, mag_mod, color='k', lw=1.5) #lc model
 ax4.set_xticklabels([])
+ax4.set_yticklabels([])
 
 # Zoom plot residuals, shallower (secondary) eclipse
-axr3 = plt.subplot2grid((12,2),(11,1))
+axr3 = plt.subplot2grid((12,2),(11,0))
 plt.axis([secondary_phasemin, secondary_phasemax, magresid_min, magresid_max])
 axr3.set_yticks([-0.006, 0, 0.006])
 axr3.set_xticks([0.20, 0.21, 0.22, 0.23])
 plt.axhline(y=0, xmin=0, xmax=2, color='0.75', ls=':')
 plt.plot(phase_dat, lcresid, color=red, marker='.', ls='None', ms=2, mew=0) #lc residual
-axr3.set_yticklabels([])
+#axr3.set_yticklabels([])
 
 # Zoom plot residuals, deeper (primary) eclipse
-axr4 = plt.subplot2grid((12,2),(11,0))
+axr4 = plt.subplot2grid((12,2),(11,1))
 plt.axis([primary_phasemin, primary_phasemax, magresid_min, magresid_max])
 axr4.set_yticks([-0.006, 0, 0.006])
-axr4.set_xticks([0.48, 0.49, 0.50, 0.51])
+axr4.set_xticks([0.49, 0.50, 0.51, 0.52])
 plt.axhline(y=0, xmin=0, xmax=2, color='0.75', ls=':')
 plt.plot(phase_dat, lcresid, color=red, marker='.', ls='None', ms=2, mew=0) #lc residual
+axr4.set_yticklabels([])
 
 # Labels using overall figure as a reference
 plt.figtext(0.5, 0.04, 'Orbital Phase (conjunction at $\phi = 0.5$)', ha='center', va='center', size=25)
-plt.figtext(0.525, 0.18, 'Secondary')
-plt.figtext(0.135, 0.18, 'Primary')
+plt.figtext(0.135, 0.18, 'Secondary')
+plt.figtext(0.535, 0.18, 'Primary')
 plt.figtext(0.06, 0.86, '$\Delta$')
 plt.figtext(0.04, 0.395, '$\Delta$')
 plt.figtext(0.04, 0.125, '$\Delta$')
