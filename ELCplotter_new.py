@@ -59,8 +59,8 @@ phasemin = 0
 phasemax = 1
 magdim = 9.52			# remember magnitudes are backwards, dangit
 magbright = 9.251
-rvmin = -55
-rvmax = 55
+rvmin = -60
+rvmax = 50
 primary_phasemin = 0.48
 primary_phasemax = 0.52
 secondary_phasemin = 0.194
@@ -75,7 +75,7 @@ ax1 = plt.subplot2grid((12,1),(4,0), rowspan=3)
 plt.axis([phasemin, phasemax, magdim, magbright])
 plt.tick_params(axis='both', which='major')
 plt.plot(phase_dat, mag_dat, color=red, marker='.', ls='None', ms=1, mew=0) #lc data
-plt.plot(phase_mod, mag_mod, 'k', lw=1.5) #lc model
+plt.plot(phase_mod, mag_mod, 'k', lw=1.5, label='ELC Model') #lc model
 ax1.set_ylabel('Magnitude', size=18)
 ax1.set_xticklabels([])
 
