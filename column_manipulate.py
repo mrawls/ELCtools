@@ -12,29 +12,35 @@ each input data set by the square root of the corresponding minimum chi^2 value.
 For example: if the LC min chi^2 is 500, there are 3000 data points, 16 fit parameters, 
 and all the error values are 0.001 mag, I would compute new 
 error values = 0.001 / sqrt(500/(3000-16)) = 0.0006. Then I run a new model with these 
-“fake” error values in order to get error bars. 
+'fake' error values in order to get error bars. 
 
 Prompts for user to type:
-		minimum chi^2, number of points in the file, and number of fit parameters.
+		minimum chi^2, number of fit parameters
 Input: 	text file with three columns (time, data, error)
 Output: 	new text file with three columns (time, data, newerror)
 '''
-#infile = 'KIC_9246715_LC_201401.txt'
-#infile = 'kplr009246715_RV1better.txt'
-infile = 'kplr009246715_RV2better.txt'
-time, mag, err = np.loadtxt(infile, comments='#', dtype=np.float64, usecols=(0,1,2), unpack=True)
+def file_len(fname):
+    with open(fname) as f:
+        for i, l in enumerate(f):
+            pass
+    return i + 1
 
+#infile = '../../RG_ELCmodeling/9246715/newtrial3_GOOD/KIC_9246715_201408_Patrick_eclipse.txt'
+#infile = '../../RG_ELCmodeling/9246715/newtrial3_GOOD/9246715_rv1_final.txt'
+infile = '../../RG_ELCmodeling/9246715/newtrial3_GOOD/9246715_rv2_final.txt'
+times, mags, errs = np.loadtxt(infile, comments='#', dtype=np.float64, usecols=(0,1,2), unpack=True)
+
+npts = file_len(infile)
 minchi2 = input("Minimum chi^2 value? ")
-npts = input("Number of points in the data file? ")
 npar = input("Number of fit parameters? ")
 
-#outfile = 'out1.txt'
-#outfile = 'out2.txt'
-outfile = 'out3.txt'
+#outfile = '../../RG_ELCmodeling/9246715/LC_erroradjust.txt'
+#outfile = '../../RG_ELCmodeling/9246715/RV1_erroradjust.txt'
+outfile = '../../RG_ELCmodeling/9246715/RV2_erroradjust.txt'
 f = open(outfile, 'w')
 
-for i in range (0, npts):
-	newerr = err[i] / np.sqrt(minchi2/(npts-npar))
-	print("%.7f \t %.7f \t %.3f \n" % (time[i], mag[i], newerr), file=f)
+for i, (time, mag, err) in enumerate(zip(times, mags, errs)):
+	newerr = err / np.sqrt(minchi2/(npts-npar))
+	print("%.9f \t %.9f \t %.7f" % (time, mag, newerr), file=f)
 
 f.close()
