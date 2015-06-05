@@ -24,7 +24,7 @@ print('#here are global errors to choose from - values are from main run')
 print('#diff = difference in parameter value between main run and error run')
 print('#err1 = error value calculated for main run (larger of + or - error)')
 print('#err2 = error value calculated for error run (larger of + or - error)')
-prnit('#')
+print('#')
 
 for idx, par in enumerate(parnames):
 	if np.abs(valuelist[1][idx]-valuelist[0][idx]) != np.max([pluerrlist[1][idx], minerrlist[1][idx]]):

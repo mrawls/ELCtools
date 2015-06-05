@@ -22,11 +22,11 @@ The plot will be a 4 x 5 grid. If you are fitting more than 20 parameters in gri
 the last ones will be omitted.
 '''
 # Important filename definitions
-gridloopfile = 	'../../RG_ELCmodeling/9246715/chunk4/gridloop.opt'
-generationfile = 	'../../RG_ELCmodeling/9246715/chunk4/generation.all'
-parmfile = 		'../../RG_ELCmodeling/9246715/chunk4/ELCparm.all'
-parmkeyfile = 		'../../RG_ELCmodeling/9246715/chunk4/key.ELCparm'
-outfile = 		'../../RG_ELCmodeling/9246715/chunk4/chiplotout.txt'
+gridloopfile = 	'../../RG_ELCmodeling/9246715/newtrial4/gridloop.opt'
+generationfile = 	'../../RG_ELCmodeling/9246715/newtrial4/generation.all'
+parmfile = 		'../../RG_ELCmodeling/9246715/newtrial4/ELCparm.all'
+parmkeyfile = 		'../../RG_ELCmodeling/9246715/newtrial4/key.ELCparm'
+outfile = 		'../../RG_ELCmodeling/9246715/newtrial4/chiplotout.txt'
 out = open(outfile, 'w')
 gridloop = [line.rstrip('\n') for line in open(gridloopfile)]
 nvars = int(gridloop[10]) # reads the number of fit variables from gridloop file
