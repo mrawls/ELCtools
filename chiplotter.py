@@ -22,11 +22,11 @@ The plot will be a 4 x 5 grid. If you are fitting more than 20 parameters in gri
 the last ones will be omitted.
 '''
 # Important filename definitions
-gridloopfile = 	'../../RG_ELCmodeling/9246715/chunk7/gridloop.opt'
-generationfile = 	'../../RG_ELCmodeling/9246715/chunk7/generation.all'
-parmfile = 		'../../RG_ELCmodeling/9246715/chunk7/ELCparm.all'
-parmkeyfile = 		'../../RG_ELCmodeling/9246715/chunk7/key.ELCparm'
-outfile = 		'../../RG_ELCmodeling/9246715/chunk7/chiplotout.txt'
+gridloopfile = 	'../../RG_ELCmodeling/9246715/chunk4/gridloop.opt'
+generationfile = 	'../../RG_ELCmodeling/9246715/chunk4/generation.all'
+parmfile = 		'../../RG_ELCmodeling/9246715/chunk4/ELCparm.all'
+parmkeyfile = 		'../../RG_ELCmodeling/9246715/chunk4/key.ELCparm'
+outfile = 		'../../RG_ELCmodeling/9246715/chunk4/chiplotout.txt'
 out = open(outfile, 'w')
 gridloop = [line.rstrip('\n') for line in open(gridloopfile)]
 nvars = int(gridloop[10]) # reads the number of fit variables from gridloop file
@@ -43,8 +43,12 @@ for i in range(0, nvars):
 	varlower.append(float(values[0]))
 	varupper.append(float(values[1]))
 
+varnames.append('gamma1'); varnames.append('gamma2') # manually include systemic velocity columns
+varlower.append(-100); varlower.append(-100)
+varupper.append(100); varupper.append(100)
+
 # Read in chi^2 and parameter values from generation.all file
-varlist_gen = np.loadtxt(generationfile, usecols=(range(1,nvars+2)), dtype=np.float64, unpack=True)
+varlist_gen = np.loadtxt(generationfile, usecols=(range(1,nvars+4)), dtype=np.float64, unpack=True)
 chi2_gen = varlist_gen[0]
 varlist_gen = np.delete(varlist_gen, 0, 0)
 
@@ -67,7 +71,7 @@ sorted_chi2s = chi2s[np.argsort(chi2s)][:10000]
 deltachi = np.min(sorted_chi2s) # in a perfect world, deltachi (error bar threshold) = 1.0
 
 # Loop over generation file things
-for i in range (1, nvars+1):
+for i in range (1, nvars+3):
 	xvalues = sorted_varlist_gen[i-1]
 
 ##############################
