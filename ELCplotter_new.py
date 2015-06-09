@@ -15,12 +15,12 @@ red = '#e34a33' # red, star 1
 yel = '#fdbb84' # yellow, star 2
 
 # Read in everything
-f1 = open('modelU.mag')
-f2 = open('ELCdataU.fold')
-f3 = open('star1.RV')
-f4 = open('star2.RV')
-f5 = open('ELCdataRV1.fold')
-f6 = open('ELCdataRV2.fold')
+f1 = '../../RG_ELCmodeling/9246715/newtrial3/modelU.mag'
+f2 = '../../RG_ELCmodeling/9246715/newtrial3/ELCdataU.fold'
+f3 = '../../RG_ELCmodeling/9246715/newtrial3/star1.RV'
+f4 = '../../RG_ELCmodeling/9246715/newtrial3/star2.RV'
+f5 = '../../RG_ELCmodeling/9246715/newtrial3/ELCdataRV1.fold'
+f6 = '../../RG_ELCmodeling/9246715/newtrial3/ELCdataRV2.fold'
 
 phase_mod,mag_mod = np.loadtxt(f1, comments='#', dtype=np.float64, usecols=(0,1), unpack=True)
 phase_dat,mag_dat = np.loadtxt(f2, comments='#', dtype=np.float64, usecols=(0,1), unpack=True)
@@ -29,14 +29,17 @@ phase_rv2,rv2 = np.loadtxt(f4, comments='#', dtype=np.float64, usecols=(0,1), un
 phase_rv1dat,rv1dat,rv1err = np.loadtxt(f5, comments='#', dtype=np.float64, usecols=(0,1,2), unpack=True)
 phase_rv2dat,rv2dat,rv2err = np.loadtxt(f6, comments='#', dtype=np.float64, usecols=(0,1,2), unpack=True)
 
-f1.close(); f2.close(); f3.close(); f4.close(); f5.close(); f6.close()
+print ('Done reading data!')
+for phase in phase_mod:
+	if phase > 1:
+		print('You need to use ELCplotter_unfold.py instead of this program.')
+		print('Your first column is times, not phases, e.g. {0}'.format(phase))
+		raise IOError
 
 # OPTIONAL ADJUSTMENT B/C FINAL GENETICELC RV MODEL OUTPUT IS SHIFTED BY GAMMA
 #gamma = input("Enter gamma adjustment (0 for none): ")
 #rv1 = rv1 + gamma
 #rv2 = rv2 + gamma
-
-print ("Done reading data!")
 
 if np.abs(np.median(mag_mod) - np.median(mag_dat)) > 1:
 	print('Adjusting magnitude of model light curve...')
@@ -111,7 +114,7 @@ axr2.set_xticklabels([])
 # Zoom-in of shallower (secondary) eclipse
 ax3 = plt.subplot2grid((12,2),(9,0), rowspan=2)
 plt.axis([secondary_phasemin, secondary_phasemax, magdim, magbright])
-ax3.xaxis.set_major_locator(IndexLocator(0.01, 0.20))
+ax3.xaxis.set_major_locator(IndexLocator(0.01, 0.20)) # may cause a tick error if limits are crazy
 ax3.xaxis.set_major_formatter(FormatStrFormatter('%.2f'))
 plt.plot(phase_dat, mag_dat, color=yel, marker='.', ls='None', ms=2, mew=0) #lc data
 plt.plot(phase_mod, mag_mod, color='k', lw=1.5) #lc model
@@ -122,7 +125,7 @@ ax3.set_xticklabels([])
 ax4 = plt.subplot2grid((12,2),(9,1), rowspan=2)
 ax4.set_yticklabels([])
 plt.axis([primary_phasemin, primary_phasemax, magdim, magbright])
-ax4.xaxis.set_major_locator(IndexLocator(0.01, 0.49))
+ax4.xaxis.set_major_locator(IndexLocator(0.01, 0.49)) # may cause a tick error if limits are crazy
 ax4.xaxis.set_major_formatter(FormatStrFormatter('%.2f'))
 plt.plot(phase_dat, mag_dat, color=red, marker='.', ls='None', ms=2, mew=0) #lc data
 plt.plot(phase_mod, mag_mod, color='k', lw=1.5) #lc model
@@ -131,7 +134,7 @@ ax4.set_xticklabels([])
 # Zoom plot residuals, shallower (secondary) eclipse
 axr3 = plt.subplot2grid((12,2),(11,0))
 plt.axis([secondary_phasemin, secondary_phasemax, magresid_min, magresid_max])
-axr3.xaxis.set_major_locator(IndexLocator(0.01, 0.20))
+axr3.xaxis.set_major_locator(IndexLocator(0.01, 0.20)) # may cause a tick error if limits are crazy
 axr3.xaxis.set_major_formatter(FormatStrFormatter('%.2f'))
 axr3.set_yticks([-0.006, 0, 0.006])
 axr3.yaxis.set_major_formatter(FormatStrFormatter('%.3f'))
@@ -141,7 +144,7 @@ plt.plot(phase_dat, lcresid, color=red, marker='.', ls='None', ms=2, mew=0) #lc 
 # Zoom plot residuals, deeper (primary) eclipse
 axr4 = plt.subplot2grid((12,2),(11,1))
 plt.axis([primary_phasemin, primary_phasemax, magresid_min, magresid_max])
-axr4.xaxis.set_major_locator(IndexLocator(0.01, 0.49))
+axr4.xaxis.set_major_locator(IndexLocator(0.01, 0.49)) # may cause a tick error if limits are crazy
 axr4.xaxis.set_major_formatter(FormatStrFormatter('%.2f'))
 axr4.set_yticks([-0.006, 0, 0.006])
 axr4.yaxis.set_major_formatter(FormatStrFormatter('%.3f'))
