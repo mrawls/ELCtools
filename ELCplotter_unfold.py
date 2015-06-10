@@ -20,12 +20,13 @@ red = '#e34a33' # red, star 1
 yel = '#fdbb84' # yellow, star 2
 
 # Read in everything
-f1 = open('modelU.mag')
-f2 = open('ELCdataU.fold')
-f3 = open('star1.RV')
-f4 = open('star2.RV')
-f5 = open('ELCdataRV1.fold')
-f6 = open('ELCdataRV2.fold')
+f1 = '../../RG_ELCmodeling/9246715/newtrial3/modelU.mag'
+f2 = '../../RG_ELCmodeling/9246715/newtrial3/ELCdataU.fold'
+f3 = '../../RG_ELCmodeling/9246715/newtrial3/star1.RV'
+f4 = '../../RG_ELCmodeling/9246715/newtrial3/star2.RV'
+f5 = '../../RG_ELCmodeling/9246715/newtrial3/ELCdataRV1.fold'
+f6 = '../../RG_ELCmodeling/9246715/newtrial3/ELCdataRV2.fold'
+ELCoutfile = '../../RG_ELCmodeling/9246715/newtrial3/ELC.out'
 
 phase_mod,mag_mod = np.loadtxt(f1, comments='#', dtype=np.float64, usecols=(0,1), unpack=True)
 phase_dat,mag_dat = np.loadtxt(f2, comments='#', dtype=np.float64, usecols=(0,1), unpack=True)
@@ -33,8 +34,6 @@ phase_rv1,rv1 = np.loadtxt(f3, comments='#', dtype=np.float64, usecols=(0,1), un
 phase_rv2,rv2 = np.loadtxt(f4, comments='#', dtype=np.float64, usecols=(0,1), unpack=True)
 phase_rv1dat,rv1dat,rv1err = np.loadtxt(f5, comments='#', dtype=np.float64, usecols=(0,1,2), unpack=True)
 phase_rv2dat,rv2dat,rv2err = np.loadtxt(f6, comments='#', dtype=np.float64, usecols=(0,1,2), unpack=True)
-
-f1.close(); f2.close(); f3.close(); f4.close(); f5.close(); f6.close()
 
 # FOLD STUFF so phases are actually phases ... and then sort all the arrays.
 def phasecalc(times, period=100, BJD0=2454833):
@@ -51,7 +50,7 @@ def phasecalc(times, period=100, BJD0=2454833):
 		#print(fracP, phases[i])
 	return np.array(phases)
 
-with open('ELC.out') as f:
+with open(ELCoutfile) as f:
 	for i, row in enumerate(f):
 		if i == 27: # 28th row
 			columns = row.split()
@@ -127,8 +126,8 @@ primary_phasemin = 0.48 #0.09 #0.48
 primary_phasemax = 0.52 #0.14 #0.52
 secondary_phasemin = 0.194 #0.80 #0.194
 secondary_phasemax = 0.234 #0.85 #0.234
-magresid_min = 0.010	# remember magnitudes are backwards, dangit
-magresid_max = -0.010
+magresid_min = 0.006	# remember magnitudes are backwards, dangit
+magresid_max = -0.006
 rvresid_min = -6
 rvresid_max = 6
 
@@ -136,7 +135,7 @@ rvresid_max = 6
 ax1 = plt.subplot2grid((12,1),(4,0), rowspan=3)
 plt.axis([phasemin, phasemax, magdim, magbright])
 plt.tick_params(axis='both', which='major')
-plt.plot(phase_dat, mag_dat, color=red, marker='.', ls='None', ms=1, mew=0) #lc data
+plt.plot(phase_dat, mag_dat, color=red, marker='.', ls='None', ms=6, mew=0) #lc data
 plt.plot(phase_mod, mag_mod, 'k', lw=1.5, label='ELC Model') #lc model
 ax1.set_ylabel('Magnitude', size=18)
 ax1.set_xticklabels([])
@@ -145,8 +144,8 @@ ax1.set_xticklabels([])
 ax2 = plt.subplot2grid((12,1),(1,0), rowspan=3)
 plt.subplots_adjust(wspace = 0.0001, hspace=0.0001)
 plt.axis([phasemin, phasemax, rvmin, rvmax])
-plt.errorbar(phase_rv1dat, rv1dat, yerr=rv1err, marker='o', color=red, mec=red, ls='None') #rv1 data
-plt.errorbar(phase_rv2dat, rv2dat, yerr=rv2err, marker='o', color=yel, mec=yel, ls='None') #rv2 data
+plt.errorbar(phase_rv1dat, rv1dat, yerr=rv1err, marker='o', color=red, ms=9, mec='None', ls='None') #rv1 data
+plt.errorbar(phase_rv2dat, rv2dat, yerr=rv2err, marker='o', color=yel, ms=9, mec='None', ls='None') #rv2 data
 plt.plot(phase_rv1, rv1, color='k', lw=1.5) #rv1 model
 plt.plot(phase_rv2, rv2, color='k', lw=1.5) #rv2 model
 ax2.set_ylabel('Radial Velocity (km s$^{-1}$)', size=18)
@@ -155,17 +154,17 @@ ax2.set_xticklabels([])
 # Light curve residuals
 axr1 = plt.subplot2grid((12,1),(7,0))
 axr1.axis([phasemin, phasemax, magresid_min, magresid_max])
-axr1.set_yticks([-0.006, 0, 0.006])
+axr1.set_yticks([-0.004, 0, 0.004])
 plt.axhline(y=0, xmin=phasemin, xmax=phasemax, color='0.75', ls=':')
-plt.plot(phase_dat, lcresid, color=red, marker='.', ls='None', ms=1, mew=0) #lc residual
+plt.plot(phase_dat, lcresid, color=red, marker='.', ls='None', ms=4, mew=0) #lc residual
 
 # Radial velocity residuals
 axr2 = plt.subplot2grid((12,1),(0,0))
 axr2.axis([phasemin, phasemax, rvresid_min, rvresid_max])
 axr2.set_yticks([-4,0,4])
 plt.axhline(y=0, xmin=phasemin, xmax=phasemax, color='0.75', ls=':')
-plt.errorbar(phase_rv1dat, rv1resid, yerr=rv1err, marker='o', color=red, mec=red, ls='None') #rv1 residual
-plt.errorbar(phase_rv2dat, rv2resid, yerr=rv2err, marker='o', color=yel, mec=yel, ls='None') #rv2 residual
+plt.errorbar(phase_rv1dat, rv1resid, yerr=rv1err, marker='o', color=red, ms=9, mec='None', ls='None') #rv1 residual
+plt.errorbar(phase_rv2dat, rv2resid, yerr=rv2err, marker='o', color=yel, ms=9, mec='None', ls='None') #rv2 residual
 #plt.xlabel('Orbital Phase (conjunction at $\phi = 0.5$)', size=20) # EXTRA LABEL
 axr2.set_xticklabels([])
 
@@ -173,7 +172,7 @@ axr2.set_xticklabels([])
 ax3 = plt.subplot2grid((12,2),(9,0), rowspan=2)
 plt.axis([secondary_phasemin, secondary_phasemax, magdim, magbright])
 ax3.set_xticks([0.20, 0.21, 0.22, 0.23])
-plt.plot(phase_dat, mag_dat, color=yel, marker='.', ls='None', ms=2, mew=0) #lc data
+plt.plot(phase_dat, mag_dat, color=yel, marker='.', ls='None', ms=6, mew=0) #lc data
 plt.plot(phase_mod, mag_mod, color='k', lw=1.5) #lc model
 ax3.set_ylabel('Magnitude')
 ax3.set_xticklabels([])
@@ -183,7 +182,7 @@ ax3.set_xticklabels([])
 ax4 = plt.subplot2grid((12,2),(9,1), rowspan=2)
 plt.axis([primary_phasemin, primary_phasemax, magdim, magbright])
 ax4.set_xticks([0.49, 0.50, 0.51, 0.52])
-plt.plot(phase_dat, mag_dat, color=red, marker='.', ls='None', ms=2, mew=0) #lc data
+plt.plot(phase_dat, mag_dat, color=red, marker='.', ls='None', ms=6, mew=0) #lc data
 plt.plot(phase_mod, mag_mod, color='k', lw=1.5) #lc model
 ax4.set_xticklabels([])
 ax4.set_yticklabels([])
@@ -191,19 +190,19 @@ ax4.set_yticklabels([])
 # Zoom plot residuals, shallower (secondary) eclipse
 axr3 = plt.subplot2grid((12,2),(11,0))
 plt.axis([secondary_phasemin, secondary_phasemax, magresid_min, magresid_max])
-axr3.set_yticks([-0.006, 0, 0.006])
+axr3.set_yticks([-0.004, 0, 0.004])
 axr3.set_xticks([0.20, 0.21, 0.22, 0.23])
 plt.axhline(y=0, xmin=0, xmax=2, color='0.75', ls=':')
-plt.plot(phase_dat, lcresid, color=red, marker='.', ls='None', ms=2, mew=0) #lc residual
+plt.plot(phase_dat, lcresid, color=red, marker='.', ls='None', ms=4, mew=0) #lc residual
 #axr3.set_yticklabels([])
 
 # Zoom plot residuals, deeper (primary) eclipse
 axr4 = plt.subplot2grid((12,2),(11,1))
 plt.axis([primary_phasemin, primary_phasemax, magresid_min, magresid_max])
-axr4.set_yticks([-0.006, 0, 0.006])
+axr4.set_yticks([-0.004, 0, 0.004])
 axr4.set_xticks([0.49, 0.50, 0.51, 0.52])
 plt.axhline(y=0, xmin=0, xmax=2, color='0.75', ls=':')
-plt.plot(phase_dat, lcresid, color=red, marker='.', ls='None', ms=2, mew=0) #lc residual
+plt.plot(phase_dat, lcresid, color=red, marker='.', ls='None', ms=4, mew=0) #lc residual
 axr4.set_yticklabels([])
 
 # Labels using overall figure as a reference
