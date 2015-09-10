@@ -22,11 +22,11 @@ The plot will be a 4 x 5 grid. If you are fitting more than 20 parameters in gri
 the last ones will be omitted.
 '''
 # Important filename definitions
-gridloopfile = 	'../../RG_ELCmodeling/9246715/newtrial4/gridloop.opt'
-generationfile = 	'../../RG_ELCmodeling/9246715/newtrial4/generation.all'
-parmfile = 		'../../RG_ELCmodeling/9246715/newtrial4/ELCparm.all'
-parmkeyfile = 		'../../RG_ELCmodeling/9246715/newtrial4/key.ELCparm'
-outfile = 		'../../RG_ELCmodeling/9246715/newtrial4/chiplotout.txt'
+gridloopfile = 	'../../RG_ELCmodeling/9246715/newtrial3/gridloop.opt'
+generationfile = 	'../../RG_ELCmodeling/9246715/newtrial3/generation.all'
+parmfile = 		'../../RG_ELCmodeling/9246715/newtrial3/ELCparm.all'
+parmkeyfile = 		'../../RG_ELCmodeling/9246715/newtrial3/key.ELCparm'
+outfile = 		'../../RG_ELCmodeling/9246715/newtrial3/chiplotout_test.txt'
 out = open(outfile, 'w')
 gridloop = [line.rstrip('\n') for line in open(gridloopfile)]
 nvars = int(gridloop[10]) # reads the number of fit variables from gridloop file
@@ -43,12 +43,16 @@ for i in range(0, nvars):
 	varlower.append(float(values[0]))
 	varupper.append(float(values[1]))
 
-varnames.append('gamma1'); varnames.append('gamma2') # manually include systemic velocity columns
-varlower.append(-100); varlower.append(-100)
-varupper.append(100); varupper.append(100)
+# manually include 2 systemic velocity columns and 4 final columns (t0, tconj, ecc, argper)
+varnames.append('gamma1'); varnames.append('gamma2'); varnames.append('t0v2')
+varnames.append('tconjv2'); varnames.append('ecc'); varnames.append('argper')
+varlower.append(-100); varlower.append(-100); varlower.append(0); varlower.append(0)
+varlower.append(0); varlower.append(0)
+varupper.append(100); varupper.append(100); varupper.append(1000); varupper.append(1000)
+varupper.append(1); varupper.append(360)
 
 # Read in chi^2 and parameter values from generation.all file
-varlist_gen = np.loadtxt(generationfile, usecols=(range(1,nvars+4)), dtype=np.float64, unpack=True)
+varlist_gen = np.loadtxt(generationfile, usecols=(range(1,nvars+8)), dtype=np.float64, unpack=True)
 chi2_gen = varlist_gen[0]
 varlist_gen = np.delete(varlist_gen, 0, 0)
 
@@ -68,10 +72,10 @@ for array in varlist_gen:
 for array in varlist_par:
 	sorted_varlist_par.append(array[np.argsort(chi2s)][:10000])
 sorted_chi2s = chi2s[np.argsort(chi2s)][:10000]
-deltachi = np.min(sorted_chi2s) # in a perfect world, deltachi (error bar threshold) = 1.0
+deltachi = np.min(sorted_chi2s) + 1
 
 # Loop over generation file things
-for i in range (1, nvars+3):
+for i in range (1, nvars+7):
 	xvalues = sorted_varlist_gen[i-1]
 
 ##############################
@@ -129,5 +133,7 @@ out.close()
 print('Chi2 ranges from {0} to {1}'.format(np.min(chi2s), np.max(chi2s)))
 print('There are {0} parameters explicitly being fit in gridloop.'.format(nvars))
 print('Error bars assume a delta-chi2 threshold of {0}.'.format(deltachi))
-print('Here comes a plot...')
-plt.show()
+
+print('Skipping a plot because that is slow.')
+#print('Here comes a plot...')
+#plt.show()
