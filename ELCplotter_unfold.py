@@ -19,14 +19,19 @@ So we need to fold them.
 red = '#e34a33' # red, star 1
 yel = '#fdbb84' # yellow, star 2
 
+# Columns in fitparm file that correspond to T0 and Period
+tconj_col = 0
+porb_col = 15
+
 # Read in everything
-f1 = '../../RG_ELCmodeling/9246715/newtrial3/modelU.mag'
-f2 = '../../RG_ELCmodeling/9246715/newtrial3/ELCdataU.fold'
-f3 = '../../RG_ELCmodeling/9246715/newtrial3/star1.RV'
-f4 = '../../RG_ELCmodeling/9246715/newtrial3/star2.RV'
-f5 = '../../RG_ELCmodeling/9246715/newtrial3/ELCdataRV1.fold'
-f6 = '../../RG_ELCmodeling/9246715/newtrial3/ELCdataRV2.fold'
-ELCoutfile = '../../RG_ELCmodeling/9246715/newtrial3/ELC.out'
+f1 =        '../../RG_ELCmodeling/9246715/demcmc001/modelU.mag'
+f2 =        '../../RG_ELCmodeling/9246715/demcmc001/ELCdataU.fold'
+f3 =        '../../RG_ELCmodeling/9246715/demcmc001/star1.RV'
+f4 =        '../../RG_ELCmodeling/9246715/demcmc001/star2.RV'
+f5 =        '../../RG_ELCmodeling/9246715/demcmc001/ELCdataRV1.fold'
+f6 =        '../../RG_ELCmodeling/9246715/demcmc001/ELCdataRV2.fold'
+fitparm =   '../../RG_ELCmodeling/9246715/demcmc001/fitparm.all'
+#ELCoutfile = '../../RG_ELCmodeling/9246715/newtrial3/ELC.out'
 
 phase_mod,mag_mod = np.loadtxt(f1, comments='#', dtype=np.float64, usecols=(0,1), unpack=True)
 phase_dat,mag_dat = np.loadtxt(f2, comments='#', dtype=np.float64, usecols=(0,1), unpack=True)
@@ -35,7 +40,7 @@ phase_rv2,rv2 = np.loadtxt(f4, comments='#', dtype=np.float64, usecols=(0,1), un
 phase_rv1dat,rv1dat,rv1err = np.loadtxt(f5, comments='#', dtype=np.float64, usecols=(0,1,2), unpack=True)
 phase_rv2dat,rv2dat,rv2err = np.loadtxt(f6, comments='#', dtype=np.float64, usecols=(0,1,2), unpack=True)
 
-# FOLD STUFF so phases are actually phases ... and then sort all the arrays.
+# FUNCTION TO FOLD STUFF so phases are actually phases ... and then sort all the arrays.
 def phasecalc(times, period=100, BJD0=2454833):
 	phases = []
 	cycles = []
@@ -50,15 +55,20 @@ def phasecalc(times, period=100, BJD0=2454833):
 		#print(fracP, phases[i])
 	return np.array(phases)
 
-with open(ELCoutfile) as f:
-	for i, row in enumerate(f):
-		if i == 27: # 28th row
-			columns = row.split()
-			period = float(columns[0]) # 1st column
-		#if i == 38: # 39th row, i.e. T0	# this one has a funny zeropoint (ok if circular)
-		if i == 133: # 134th row, i.e. Tconj # this one puts primary eclipse at phase 0
-			columns = row.split()
-			Tconj = float(columns[0]) #1st column
+# GET PERIOD AND T0 from files
+#with open(ELCoutfile) as f:
+#	for i, row in enumerate(f):
+#		if i == 27: # 28th row
+#			columns = row.split()
+#			period = float(columns[0]) # 1st column
+#		#if i == 38: # 39th row, i.e. T0	# this one has a funny zeropoint (ok if circular)
+#		if i == 133: # 134th row, i.e. Tconj # this one puts primary eclipse at phase 0
+#			columns = row.split()
+#			Tconj = float(columns[0]) #1st column
+
+periods, tconjs = np.loadtxt(fitparm, usecols=(porb_col, tconj_col), unpack=True)
+period = np.median(periods)
+Tconj = np.median(tconjs)
 
 print(period, Tconj)
 Tconj = Tconj + 0.5*period
@@ -128,8 +138,8 @@ secondary_phasemin = 0.194 #0.80 #0.194
 secondary_phasemax = 0.234 #0.85 #0.234
 magresid_min = 0.006	# remember magnitudes are backwards, dangit
 magresid_max = -0.006
-rvresid_min = -6
-rvresid_max = 6
+rvresid_min = -2.3
+rvresid_max = 2.3
 
 # Light curve
 ax1 = plt.subplot2grid((12,1),(4,0), rowspan=3)
@@ -161,7 +171,7 @@ plt.plot(phase_dat, lcresid, color=red, marker='.', ls='None', ms=4, mew=0) #lc 
 # Radial velocity residuals
 axr2 = plt.subplot2grid((12,1),(0,0))
 axr2.axis([phasemin, phasemax, rvresid_min, rvresid_max])
-axr2.set_yticks([-4,0,4])
+axr2.set_yticks([-2,0,2])
 plt.axhline(y=0, xmin=phasemin, xmax=phasemax, color='0.75', ls=':')
 plt.errorbar(phase_rv1dat, rv1resid, yerr=rv1err, marker='o', color=red, ms=9, mec='None', ls='None') #rv1 residual
 plt.errorbar(phase_rv2dat, rv2resid, yerr=rv2err, marker='o', color=yel, ms=9, mec='None', ls='None') #rv2 residual
