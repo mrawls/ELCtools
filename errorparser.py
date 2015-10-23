@@ -7,6 +7,8 @@ and reports "formal" parameter values with error bars.
 Assumes 0th file is the "main ELC run" with the correct parameter values
 Assumes 1st file is the secondary "error ELC run" to be used for error bar values
 Assumes 2nd - Nth files are for each light curve chunk or segment
+
+Everything is printed to the screen.
 '''
 infilelist = '../../RG_ELCmodeling/9246715/chi2outfilelist.txt'
 infiles = [line.rstrip('\n') for line in open(infilelist)]

@@ -28,13 +28,13 @@ Other parameters of interest which follow from these are reported in the ELCparm
 The plot will be a 4 x 5 grid. If you are fitting more than 20 parameters in gridloop.opt,
 the last ones will be omitted.
 '''
-# Important filename definitions
-gridloopfile =    '../../RG_ELCmodeling/9246715/demcmc001/gridloop.opt'
-generationfile =  '../../RG_ELCmodeling/9246715/demcmc001/fitparm.all'
-parmfile =        '../../RG_ELCmodeling/9246715/demcmc001/starparm.all'
-parmkeyfile =     '../../RG_ELCmodeling/9246715/demcmc001/key.ELCparm' # CREATE MANUALLY FOR DEMCMCELC
-chi2file =        '../../RG_ELCmodeling/9246715/demcmc001/chi.all' # OMIT FOR MARKOVELC
-outfile =         '../../RG_ELCmodeling/9246715/demcmc001/chiplotout1.txt'
+# Important filename definitions2
+gridloopfile =    '../../RG_ELCmodeling/9246715/demcmc001_jerry/gridloop.opt'
+generationfile =  '../../RG_ELCmodeling/9246715/demcmc001_jerry/fitparm.all'
+parmfile =        '../../RG_ELCmodeling/9246715/demcmc001_jerry/starparm.all'
+parmkeyfile =     '../../RG_ELCmodeling/9246715/demcmc001_jerry/key.ELCparm'
+chi2file =        '../../RG_ELCmodeling/9246715/demcmc001_jerry/chi.all' # OMIT FOR MARKOVELC
+outfile =         '../../RG_ELCmodeling/9246715/demcmc001_jerry/chiplotout_WTF.txt'
 out = open(outfile, 'w')
 gridloop = [line.rstrip('\n') for line in open(gridloopfile)]
 nvars = int(gridloop[10]) # reads the number of fit variables from gridloop file
@@ -59,7 +59,7 @@ varlower.append(0); varlower.append(0)
 varupper.append(100); varupper.append(100); varupper.append(1000); varupper.append(1000)
 varupper.append(1); varupper.append(360)
 
-# Read in chi^2 and parameter values from generation.all file
+# Read in chi^2 and parameter values from generation/fitparm file
 # The number of cols in the generation/fitparm file varies for markovELC/demcmcELC
 try:
     varlist_gen = np.loadtxt(generationfile, usecols=(range(1,nvars+8)), dtype=np.float64, unpack=True)
@@ -71,10 +71,17 @@ except:
     demcmc = True
 print('Read in generation/fitparm file')
 
-# Read in chi^2 and parameter values from ELCparm.all file
+# Read in chi^2 and parameter values from ELCparm/starparm file
 # The number of cols in the ELCparm/starparm file varies for markovELC/demcmcELC
 parmkeys = np.loadtxt(parmkeyfile, comments='#', usecols=(1,), dtype={'names':('parmkeys',),'formats':('|S11',)}, unpack=True)
-#parmkeys = np.delete(parmkeys, 0, 0) # get rid of the index column
+for idx, entry in enumerate(parmkeys): # remove 'index' from parmkeyfile
+    entry = str(entry)
+    if ('index' in entry):
+        parmkeys = np.delete(parmkeys, idx, axis=0) # remove 'chi^2' from parmkeyfile
+for idx, entry in enumerate(parmkeys):
+    entry = str(entry)
+    if ('chi^2' in entry):
+        parmkeys = np.delete(parmkeys, idx, axis=0)
 nparms = len(parmkeys)
 if demcmc == False:
     varlist_par = np.loadtxt(parmfile, usecols=(range(1,nparms)), dtype=np.float64, unpack=True)
@@ -84,7 +91,13 @@ if demcmc == False:
 elif demcmc == True:
     varlist_par = np.loadtxt(parmfile, usecols=(range(0,nparms-1)), dtype=np.float64, unpack=True)
     chi2s = np.loadtxt(chi2file, usecols=(1,), dtype=np.float64, unpack=True)
-print('Read in ELCparm/starparm file')
+print('Read in ELCparm/starparm file (and chi2 file)')
+
+# Ensure the gen/fitparm, ELC/starparm, and chi2 arrays are all the same length
+newlength = min(varlist_gen.shape[1], varlist_par.shape[1], chi2s.shape[0]) # find length of shortest array
+varlist_gen = varlist_gen[:,0:newlength]
+varlist_par = varlist_par[:,0:newlength]
+chi2s = chi2s[0:newlength]
 
 # Sort parameter arrays by chi2, and only keep values with the lowest chi2 values
 sorted_varlist_gen = []; sorted_varlist_par = []
@@ -174,6 +187,6 @@ print('Chi2 ranges from {0} to {1}'.format(np.min(chi2s), np.max(chi2s)))
 print('There are {0} parameters explicitly being fit in gridloop.'.format(nvars))
 print('Error bars assume a delta-chi2 threshold of {0}.'.format(deltachi))
 
-#print('Skipping a plot because that is slow.')
-print('Here comes a plot...')
-plt.show()
+print('Skipping a plot because that is ugly and slow.')
+#print('Here comes a plot...')
+#plt.show()
