@@ -5,11 +5,21 @@ import matplotlib
 from scipy.stats import norm
 '''
 Graph some of the fit parameters from an ELC run, histogram style
-This program is very rough and needs to be improved, but it's a start
+
+INPUT:
+Correctly specify the directory where the files listed below are listed
+(note that the fitparm.all, starparm.all, chi.all files must be created by
+'cat'-ing demcmc_fitparm.1*, demcmc_starparm.1*, chi.1* respectively)
+--> For decent CDF plots, set N ~ number of ELC models in the cdferrplot function
+
+OUTPUT:
+Prints each fit parameter and derived parameter to the screen
+Makes a set of histograms for fit parameters and derived parameters
+Option to make individual CDF plots when calling the cdferrplot function
 '''
 
-#dirstub = '../../RG_ELCmodeling/9246715/demcmc001/'
-dirstub = 'demcmc_chunk1/'
+dirstub = '../../RG_ELCmodeling/9246715/demcmc001/'
+#dirstub = 'demcmc_chunk1/'
 
 fitparmfile =   dirstub + 'fitparm.all'
 starparmfile =  dirstub + 'starparm.all'
@@ -20,10 +30,10 @@ chi2file =      dirstub + 'chi.all'
 burnin = 10000
 nplotbins = 100
 
-def cdferrplot(var, varname, N=100, plot=True):
+def cdferrplot(var, varname, N=100000, plot=True):
     '''
-    Awesome function written by Jean
-    Plots a cumulative distribution, and calculates value with +/- 1-sigma errors
+    Awesome function originally written by Jean!
+    Plots a cumulative distribution function, and calculates value +/- 1-sigma errors
     a = 50%, b = 15.75%, c = 84.25%
     Thus, a = value, c-a = upper 1-sigma error, a-b = lower 1-sigma error
     '''
@@ -36,6 +46,10 @@ def cdferrplot(var, varname, N=100, plot=True):
     c = (cdf[1][ci] + cdf[1][ci+1])/2
     if plot == True:
         plt.figure()
+        ##fig = plt.figure(3, figsize=(15,10))
+        ##for idx in range(1,16):
+        ##ax = fig.add_subplot(4, 4, idx)
+        ##hist = plt.hist(var, bins=N, normed=True, cumulative=True, histtype='step', color='k')
         plt.ylabel(varname)
         plt.axvline(a, linewidth=2, color='k')
         plt.axvline(b, linestyle='dashed', color='k')
@@ -70,6 +84,8 @@ for idx, entry in enumerate(starparmnames):
         starparmnames = np.delete(starparmnames, idx, axis=0)
 nstarparms = len(starparmnames)
 
+print('Reading in fitparm.all, starparm.all, and chi.all, please be patient...')
+
 fitparms = np.loadtxt(fitparmfile, usecols=(range(0,nfitparms)), dtype=np.float64, unpack=True)
 starparms = np.loadtxt(starparmfile, usecols=(range(0,nstarparms)), dtype=np.float64, unpack=True)
 chi2s = np.loadtxt(chi2file, usecols=(1,), dtype=np.float64, unpack=True)
@@ -81,8 +97,9 @@ fitparms = fitparms[:,burnin:newlength]
 starparms = starparms[:,burnin:newlength]
 chi2s = chi2s[burnin:newlength]
 
-print('Finished reading everything in, generating some plots...')
+print('Finished reading everything in, calculating values and generating plots...')
 
+# First plot: histograms of all the FIT PARAMETERS (FITPARM)
 fig = plt.figure(1, figsize=(15,10))
 windowcols = 4
 windowrows = int([np.rint(nfitparms/windowcols) if (np.float(nfitparms)/windowcols)%windowcols == 0 else np.rint(nfitparms/windowcols)+1][0])
@@ -103,8 +120,9 @@ for idx, param in enumerate(fitparms):
     xformat = ax.xaxis.set_major_formatter(x_formatter)
     label = plt.text(xmin + 0.1*(np.abs(xmax-xmin)), 0.8*ymax, paramname, size=20)
     cdferrplot(param, paramname, newlength, plot=False)
-plt.show()
+    # set plot=True if you want a CDF plot in a new window for each parameter
 
+# Second plot: histograms of all the DERIVED PARAMETERS (STARPARM)
 fig = plt.figure(2, figsize=(15,10))
 windowcols = 4
 windowrows = 4
@@ -126,5 +144,7 @@ for idx, param in enumerate(starparms[0:16]):   # we only care about the first 1
     x_formatter = matplotlib.ticker.ScalarFormatter(useOffset=False)
     xformat = ax.xaxis.set_major_formatter(x_formatter)
     label = plt.text(xmin + 0.1*(np.abs(xmax-xmin)), 0.8*ymax, paramname, size=20)
-    cdferrplot(param, paramname, newlength, plot=False)
+    cdferrplot(param, paramname, newlength, plot=True)
+    # set plot=True if you want a CDF plot in a new window for each parameter
+    
 plt.show()
