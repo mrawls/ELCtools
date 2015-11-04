@@ -3,11 +3,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 from scipy.stats import norm
+import os
 '''
-Graph some of the fit parameters from an ELC run, histogram style
+Graph some of the fit parameters from a demcmcELC run, histogram style
 
 INPUT:
-Correctly specify the directory where the files listed below are listed
+Set MakeNewAllFiles = True/False (do fitparm.all, starparm.all, and chi.all exist already?)
+Correctly specify the directory where demcmcELC has been run, 'dirstub'
 (note that the fitparm.all, starparm.all, chi.all files must be created by
 'cat'-ing demcmc_fitparm.1*, demcmc_starparm.1*, chi.1* respectively)
 --> For decent CDF plots, set N ~ number of ELC models in the cdferrplot function
@@ -18,8 +20,18 @@ Makes a set of histograms for fit parameters and derived parameters
 Option to make individual CDF plots when calling the cdferrplot function
 '''
 
-dirstub = '../../RG_ELCmodeling/9246715/demcmc001/'
-#dirstub = 'demcmc_chunk1/'
+MakeNewAllFiles = True
+#dirstub = '../../RG_ELCmodeling/9246715/demcmc001/'
+dirstub = 'demcmc_chunk1/'
+
+if MakeNewAllFiles == True:
+    print('Creating new fitparm.all, starparm.all, and chi.all files, standby...')
+    os.system('rm ' + dirstub + 'fitparm.all')
+    os.system('rm ' + dirstub + 'starparm.all')
+    os.system('rm ' + dirstub + 'chi.all')
+    os.system('cat ' + dirstub + 'demcmc_fitparm.1* > ' + dirstub + 'fitparm.all')
+    os.system('cat ' + dirstub + 'demcmc_starparm.1* > ' + dirstub + 'starparm.all')
+    os.system('cat ' + dirstub + 'chi.1* > ' + dirstub + 'chi.all')
 
 fitparmfile =   dirstub + 'fitparm.all'
 starparmfile =  dirstub + 'starparm.all'
@@ -27,8 +39,8 @@ gridloopfile =  dirstub + 'gridloop.opt'
 parmkeyfile =   dirstub + 'key.ELCparm'
 chi2file =      dirstub + 'chi.all'
 
-burnin = 10000
-nplotbins = 100
+burnin = 10000      # skip this many models from the start of the demcmcELC run
+nplotbins = 100     # use this many bins for the histogram plots
 
 def cdferrplot(var, varname, N=100000, plot=True):
     '''
@@ -50,6 +62,7 @@ def cdferrplot(var, varname, N=100000, plot=True):
         ##for idx in range(1,16):
         ##ax = fig.add_subplot(4, 4, idx)
         ##hist = plt.hist(var, bins=N, normed=True, cumulative=True, histtype='step', color='k')
+        plt.hist(var, bins=N, normed=True, cumulative=True, histtype='step', color='k')
         plt.ylabel(varname)
         plt.axvline(a, linewidth=2, color='k')
         plt.axvline(b, linestyle='dashed', color='k')
@@ -120,7 +133,6 @@ for idx, param in enumerate(fitparms):
     xformat = ax.xaxis.set_major_formatter(x_formatter)
     label = plt.text(xmin + 0.1*(np.abs(xmax-xmin)), 0.8*ymax, paramname, size=20)
     cdferrplot(param, paramname, newlength, plot=False)
-    # set plot=True if you want a CDF plot in a new window for each parameter
 
 # Second plot: histograms of all the DERIVED PARAMETERS (STARPARM)
 fig = plt.figure(2, figsize=(15,10))
@@ -131,20 +143,21 @@ for idx, param in enumerate(starparms[0:16]):   # we only care about the first 1
     paramname = str(starparmnames[idx])[2:-3]
     ax = fig.add_subplot(windowrows, windowcols, idx+1)
     nope = ax.set_yticklabels(())
-    small = plt.tick_params(axis='both', which='major', labelsize=10)
+    small = ax.tick_params(axis='both', which='major', labelsize=10)
     for label in ax.get_xticklabels()[::2]: # hide every other tick label
         label.set_visible(False)
     xval = param
     xmin = np.min(param)
     xmax = np.max(param)
-    histogram = plt.hist(xval, nplotbins, histtype='stepfilled')
+    histogram = ax.hist(xval, nplotbins, histtype='stepfilled')
     ymin, ymax = ax.get_ylim()
     y_formatter = matplotlib.ticker.ScalarFormatter(useOffset=False)
     yformat = ax.yaxis.set_major_formatter(y_formatter)
     x_formatter = matplotlib.ticker.ScalarFormatter(useOffset=False)
     xformat = ax.xaxis.set_major_formatter(x_formatter)
-    label = plt.text(xmin + 0.1*(np.abs(xmax-xmin)), 0.8*ymax, paramname, size=20)
-    cdferrplot(param, paramname, newlength, plot=True)
-    # set plot=True if you want a CDF plot in a new window for each parameter
-    
-plt.show()
+    label = ax.text(xmin + 0.1*(np.abs(xmax-xmin)), 0.8*ymax, paramname, size=20)
+    cdferrplot(param, paramname, newlength, plot=False)
+
+# IF YOU WANT CDF PLOTS, run this interactively and call cdferrplot with plot=True.
+
+#plt.show()

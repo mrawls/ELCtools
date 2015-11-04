@@ -10,17 +10,19 @@ Assumes 2nd - Nth files are for each light curve chunk or segment
 
 Everything is printed to the screen.
 '''
-infilelist = '../../RG_ELCmodeling/9246715/chi2outfilelist.txt'
+#infilelist = '../../RG_ELCmodeling/9246715/chi2outfilelist.txt'
+infilelist = '../../RG_ELCmodeling/9246715/demcmc001_filelist.txt'
 infiles = [line.rstrip('\n') for line in open(infilelist)]
 parnames = np.loadtxt(infiles[0], usecols=(0,), dtype={'names':('parnames',),'formats':('|S6',)}, unpack=True)
 
 # Read stuff in from the chiplotter outfiles
 valuelist = []; pluerrlist = []; minerrlist = []
 for infile in infiles:
-	value, pluerr, minerr = np.loadtxt(infile, usecols=(2,4,7), unpack=True)
+	#value, pluerr, minerr = np.loadtxt(infile, usecols=(2,4,7), unpack=True)
+	value, pluerr, minerr = np.loadtxt(infile, usecols=(2,3,4), unpack=True)
 	valuelist.append(value)
 	pluerrlist.append(pluerr)
-	minerrlist.append(minerr)
+	minerrlist.append(-1.*minerr)
 
 print('#here are global errors to choose from - values are from main run')
 print('#diff = difference in parameter value between main run and error run')
@@ -57,9 +59,9 @@ for idx, par in enumerate(parnames):
 	minerrquad = np.sqrt(minerrquad)
 	rms = np.sqrt(np.mean(np.power(parsave,2)))
 	rmserr = np.sqrt(np.mean(valuelist[0][idx] - parsave)**2)
-	if pluerrquad != 0 and minerrquad != 0:
+	#if pluerrquad != 0 and minerrquad != 0:
 	# only prints values that are meaningful, i.e., with nonzero errors
-		print(par[0], rms, #np.median(parsave),
-			'\t plus', np.median(pluerrquad),
-			'\t minus', np.median(minerrquad),
-			'\t rmse', rmserr)
+	print(par[0], rms, #np.median(parsave),
+		'\t plus', np.median(pluerrquad),
+		'\t minus', np.median(minerrquad),
+		'\t rmse', rmserr)
