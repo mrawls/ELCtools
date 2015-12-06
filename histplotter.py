@@ -6,6 +6,7 @@ from scipy.stats import norm
 import os
 '''
 Graph some of the fit parameters from a demcmcELC run, histogram style
+EVEN BETTER: calculate legit CDF error bars for said fit parameters, huzzah!
 
 INPUT:
 Set MakeNewAllFiles = True/False (do fitparm.all, starparm.all, and chi.all exist already?)
@@ -101,7 +102,8 @@ print('Reading in fitparm.all, starparm.all, and chi.all, please be patient...')
 
 fitparms = np.loadtxt(fitparmfile, usecols=(range(0,nfitparms)), dtype=np.float64, unpack=True)
 starparms = np.loadtxt(starparmfile, usecols=(range(0,nstarparms)), dtype=np.float64, unpack=True)
-chi2s = np.loadtxt(chi2file, usecols=(1,), dtype=np.float64, unpack=True)
+#chi2s = np.loadtxt(chi2file, usecols=(1,), dtype=np.float64, unpack=True)
+chi2s = np.genfromtxt(chi2file, usecols=(1,), unpack=True)
 
 # Ensure the FITPARM, STARPARM, and CHI2 arrays are all the same length
 # Omit the first trials corresponding to the burn-in period
