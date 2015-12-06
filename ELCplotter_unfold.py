@@ -3,10 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import IndexLocator, FormatStrFormatter
 '''
-Meredith Rawls, Dec 2014
-Updated, somewhat friendlier than 'ELCplotter.py'
-Plotting routine for geneticELC / markovELC output.
-Save this program in a directory where you've run geneticELC or markovELC, and run it.
+Meredith Rawls, originally written Dec 2014
+Plotting routine for geneticELC / markovELC /demcmcELC output.
 It will make a plot that has both light curve data w/fit and RV data w/fit.
 There are also residuals in the plots!
 
@@ -14,6 +12,7 @@ There are also residuals in the plots!
 This version assumes the files above are NOT yet folded in phase, and are in time.
 This would happen if you are using ELCgap.inp, or anytime when ELC.inp has itime = 2.
 So we need to fold them.
+(If you want to plot already-folded data, use ELCplotter_new.py)
 '''
 # Colors for plots. Selected with help from colorbrewer.
 red = '#e34a33' # red, star 1
@@ -24,14 +23,13 @@ tconj_col = 0
 porb_col = 15
 
 # Read in everything
-f1 =        '../../RG_ELCmodeling/9246715/demcmc001/modelU.mag'
-f2 =        '../../RG_ELCmodeling/9246715/demcmc001/ELCdataU.fold'
-f3 =        '../../RG_ELCmodeling/9246715/demcmc001/star1.RV'
-f4 =        '../../RG_ELCmodeling/9246715/demcmc001/star2.RV'
-f5 =        '../../RG_ELCmodeling/9246715/demcmc001/ELCdataRV1.fold'
-f6 =        '../../RG_ELCmodeling/9246715/demcmc001/ELCdataRV2.fold'
-fitparm =   '../../RG_ELCmodeling/9246715/demcmc001/fitparm.all'
-#ELCoutfile = '../../RG_ELCmodeling/9246715/newtrial3/ELC.out'
+f1 =        '../../RG_ELCmodeling/7037405/trial1/modelU.mag'
+f2 =        '../../RG_ELCmodeling/7037405/trial1/ELCdataU.fold'
+f3 =        '../../RG_ELCmodeling/7037405/trial1/star1.RV'
+f4 =        '../../RG_ELCmodeling/7037405/trial1/star2.RV'
+f5 =        '../../RG_ELCmodeling/7037405/trial1/ELCdataRV1.fold'
+f6 =        '../../RG_ELCmodeling/7037405/trial1/ELCdataRV2.fold'
+fitparm =   '../../RG_ELCmodeling/7037405/trial1/fitparm.all' # only used to get P & T0
 
 phase_mod,mag_mod = np.loadtxt(f1, comments='#', dtype=np.float64, usecols=(0,1), unpack=True)
 phase_dat,mag_dat = np.loadtxt(f2, comments='#', dtype=np.float64, usecols=(0,1), unpack=True)
