@@ -72,6 +72,7 @@ def cdferrplot(var, varname, N=100000, plot=True):
         plt.xlim(min(var), max(var))
         plt.show()
     print('{0} = {1} +{2} -{3}'.format(varname, a, c-a, a-b))
+    # This prints the CDF at 50% with +err at 15.75% and -err at 84.25%
     return
 
 # Read in names for FITPARM variables from gridloop file
