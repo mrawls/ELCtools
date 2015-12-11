@@ -51,9 +51,18 @@ def cdferrplot(var, varname, N=100000, plot=True):
     Thus, a = value, c-a = upper 1-sigma error, a-b = lower 1-sigma error
     '''
     cdf = plt.hist(var, bins=N, normed=True, cumulative=True, histtype='step', color='k')
-    ai = np.where(cdf[0] < 0.5)[0][-1]
-    bi = np.where(cdf[0] < 0.1575)[0][-1]
-    ci = np.where(cdf[0] < 0.8425)[0][-1]
+    try:
+        ai = np.where(cdf[0] < 0.5)[0][-1]
+    except:
+        ai = np.where(cdf[0] < 0.5)[0]
+    try:
+        bi = np.where(cdf[0] < 0.1575)[0][-1]
+    except:
+        bi = np.where(cdf[0] < 0.1575)[0]
+    try:
+        ci = np.where(cdf[0] < 0.8425)[0][-1]
+    except:
+        ci = np.where(cdf[0] < 0.8425)[0]
     a = (cdf[1][ai] + cdf[1][ai+1])/2
     b = (cdf[1][bi] + cdf[1][bi+1])/2
     c = (cdf[1][ci] + cdf[1][ci+1])/2
