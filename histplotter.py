@@ -21,9 +21,10 @@ Makes a set of histograms for fit parameters and derived parameters
 Option to make individual CDF plots when calling the cdferrplot function
 '''
 
-MakeNewAllFiles = True
+MakeNewAllFiles = False
 #dirstub = '../../RG_ELCmodeling/9246715/demcmc001/'
-dirstub = 'demcmc_chunk1/'
+#dirstub = 'demcmc_chunk1/'
+dirstub = '../../RG_ELCmodeling/7037405/trial7/'
 
 if MakeNewAllFiles == True:
     print('Creating new fitparm.all, starparm.all, and chi.all files, standby...')
@@ -111,7 +112,8 @@ nstarparms = len(starparmnames)
 print('Reading in fitparm.all, starparm.all, and chi.all, please be patient...')
 
 fitparms = np.loadtxt(fitparmfile, usecols=(range(0,nfitparms)), dtype=np.float64, unpack=True)
-starparms = np.loadtxt(starparmfile, usecols=(range(0,nstarparms)), dtype=np.float64, unpack=True)
+starparms = np.genfromtxt(starparmfile, usecols=(range(0,nstarparms)), unpack=True)
+#starparms = np.loadtxt(starparmfile, usecols=(range(0,nstarparms)), dtype=np.float64, unpack=True)
 #chi2s = np.loadtxt(chi2file, usecols=(1,), dtype=np.float64, unpack=True)
 chi2s = np.genfromtxt(chi2file, usecols=(1,), unpack=True)
 
@@ -124,26 +126,35 @@ chi2s = chi2s[burnin:newlength]
 
 print('Finished reading everything in, calculating values and generating plots...')
 
+customparmnames = ['$T_0$ conj', '$e \cos \omega$', '$e \sin \omega$', '$i$', '$M_1$', r'$T_{\mathrm{eff},~1}$', 
+    '$T_2/T_1$', '$R_1/a$', '$R_2/a$', '$K_1$', 'LD$_1$ $q_1$', 'LD$_1$ $q_2$', 'LD$_2$ $q_1$', 'LD$_2$ $q_2$', 
+    'Kepler contam', 'Period', 'gamma1', 'gamma2', 'T0', 'T0conj', '$e$', '$\omega$']
+
 # First plot: histograms of all the FIT PARAMETERS (FITPARM)
 fig = plt.figure(1, figsize=(15,10))
 windowcols = 4
+#windowrows = 4
 windowrows = int([np.rint(nfitparms/windowcols) if (np.float(nfitparms)/windowcols)%windowcols == 0 else np.rint(nfitparms/windowcols)+1][0])
-for idx, param in enumerate(fitparms):
-    paramname = fitparmnames[idx]
+for idx, param in enumerate(fitparms): # remove indices if you want them ALL
+#for idx, param in enumerate(fitparms[0:16]): # remove indices if you want them ALL
+    paramname = fitparmnames[idx] # CHOOSE ONE OR THE OTHER
+    paramnameplot = customparmnames[idx] # CHOOSE ONE OR THE OTHER
     ax = fig.add_subplot(windowrows, windowcols, idx+1)
     small = plt.tick_params(axis='both', which='major', labelsize=10)
-    for label in ax.get_xticklabels()[::2]: # hide every other tick label
+    for label in ax.get_xticklabels()[::2]: # hide every other xtick label
+        label.set_visible(False)
+    for label in ax.get_yticklabels()[::2]: # hide every other ytick label
         label.set_visible(False)
     xval = param
     xmin = np.min(param)
     xmax = np.max(param)
-    histogram = plt.hist(xval, nplotbins, histtype='stepfilled')
+    histogram = plt.hist(xval, nplotbins, histtype='stepfilled', color='0.75')
     ymin, ymax = ax.get_ylim()
     y_formatter = matplotlib.ticker.ScalarFormatter(useOffset=False)
     yformat = ax.yaxis.set_major_formatter(y_formatter)
     x_formatter = matplotlib.ticker.ScalarFormatter(useOffset=False)
     xformat = ax.xaxis.set_major_formatter(x_formatter)
-    label = plt.text(xmin + 0.1*(np.abs(xmax-xmin)), 0.8*ymax, paramname, size=20)
+    label = plt.text(xmin + 0.05*(np.abs(xmax-xmin)), 0.7*ymax, paramnameplot, size=20)
     cdferrplot(param, paramname, newlength, plot=False)
 
 # Second plot: histograms of all the DERIVED PARAMETERS (STARPARM)
@@ -161,7 +172,7 @@ for idx, param in enumerate(starparms[0:16]):   # we only care about the first 1
     xval = param
     xmin = np.min(param)
     xmax = np.max(param)
-    histogram = ax.hist(xval, nplotbins, histtype='stepfilled')
+    histogram = ax.hist(xval, nplotbins, histtype='stepfilled', color='0.75')
     ymin, ymax = ax.get_ylim()
     y_formatter = matplotlib.ticker.ScalarFormatter(useOffset=False)
     yformat = ax.yaxis.set_major_formatter(y_formatter)
@@ -172,4 +183,4 @@ for idx, param in enumerate(starparms[0:16]):   # we only care about the first 1
 
 # IF YOU WANT CDF PLOTS, run this interactively and call cdferrplot with plot=True.
 
-#plt.show()
+plt.show()
