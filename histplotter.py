@@ -24,7 +24,8 @@ Option to make individual CDF plots when calling the cdferrplot function
 MakeNewAllFiles = False
 #dirstub = '../../RG_ELCmodeling/9246715/demcmc001/'
 #dirstub = 'demcmc_chunk1/'
-dirstub = '../../RG_ELCmodeling/7037405/trial7/'
+#dirstub = '../../RG_ELCmodeling/7037405/trial7/'
+dirstub = '../../RG_ELCmodeling/8702921/trial3/'
 
 if MakeNewAllFiles == True:
     print('Creating new fitparm.all, starparm.all, and chi.all files, standby...')
@@ -111,8 +112,11 @@ nstarparms = len(starparmnames)
 
 print('Reading in fitparm.all, starparm.all, and chi.all, please be patient...')
 
-fitparms = np.loadtxt(fitparmfile, usecols=(range(0,nfitparms)), dtype=np.float64, unpack=True)
-starparms = np.genfromtxt(starparmfile, usecols=(range(0,nstarparms)), unpack=True)
+try:
+    fitparms = np.loadtxt(fitparmfile, usecols=(range(0,nfitparms)), dtype=np.float64, unpack=True)
+except: # SB1 is weird with too many fitparms? maybe?
+    fitparms = np.loadtxt(fitparmfile, usecols=(range(0,nfitparms-2)), dtype=np.float64, unpack=True)
+starparms = np.genfromtxt(starparmfile, usecols=(range(0,nstarparms)), dtype=np.float64, unpack=True)
 #starparms = np.loadtxt(starparmfile, usecols=(range(0,nstarparms)), dtype=np.float64, unpack=True)
 #chi2s = np.loadtxt(chi2file, usecols=(1,), dtype=np.float64, unpack=True)
 chi2s = np.genfromtxt(chi2file, usecols=(1,), unpack=True)
