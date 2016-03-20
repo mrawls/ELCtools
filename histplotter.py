@@ -114,8 +114,10 @@ print('Reading in fitparm.all, starparm.all, and chi.all, please be patient...')
 
 try:
     fitparms = np.loadtxt(fitparmfile, usecols=(range(0,nfitparms)), dtype=np.float64, unpack=True)
-except: # SB1 is weird with too many fitparms? maybe?
-    fitparms = np.loadtxt(fitparmfile, usecols=(range(0,nfitparms-2)), dtype=np.float64, unpack=True)
+except: # SB1 only has one gamma value, thus one fewer fitparm column
+    fitparms = np.loadtxt(fitparmfile, usecols=(range(0,nfitparms-1)), dtype=np.float64, unpack=True)
+    print('fitparm names will be WRONG because we assume two gammas!')
+    print('really it\'s gamma, t0v2, tconjv2, ecc, argper (no gamma2)!')
 starparms = np.genfromtxt(starparmfile, usecols=(range(0,nstarparms)), dtype=np.float64, unpack=True)
 #starparms = np.loadtxt(starparmfile, usecols=(range(0,nstarparms)), dtype=np.float64, unpack=True)
 #chi2s = np.loadtxt(chi2file, usecols=(1,), dtype=np.float64, unpack=True)
