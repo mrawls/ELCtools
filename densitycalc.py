@@ -13,10 +13,10 @@ def densitycalc(M=1.0*u.Msun, R=1.0*u.Rsun, Merr=0.*u.Msun, Rerr=0.*u.Rsun):
 solardensity = densitycalc()[0]
 
 KICs =  [ 929,   395,   100,   578,   703, 979]
-Ms =    [1.12, 1.103, 0.857, 1.062, 1.267, 1.39]
-Rs =    [7.99, 8.238, 12.73, 11.01, 13.72, 8.84]
-Merrs = [0.07, 0.002, 0.060, 0.011, 0.025, 0.03]
-Rerrs = [0.39, 0.004, 0.51,  0.04,  0.08,  0.14]
+Ms =    [1.1274, 1.103, 0.857, 1.062, 1.267, 1.168]
+Rs =    [7.932, 8.238, 12.73, 11.01, 13.72, 7.70]
+Merrs = [0.0002, 0.002, 0.060, 0.011, 0.025, 0.014]
+Rerrs = [0.002, 0.004, 0.51,  0.04,  0.08,  0.02]
 
 print('For hard-wired values of M and R, the densities in solar units MULTIPLIED BY 1000 are:')
 
